@@ -279,6 +279,12 @@ class BrandPreset:
     # freshness issue) apart from "our connector is unhealthy". Captures a number
     # and a unit. None = not wired for this brand.
     sync_age_re: str | None = None
+    # Label for the setup dropdown and the entry title; empty means brand.title().
+    display_name: str = ""
+
+    @property
+    def label(self) -> str:
+        return self.display_name or self.brand.title()
 
     @property
     def writable(self) -> bool:
@@ -1275,8 +1281,57 @@ _CUPRA = BrandPreset(
 )
 
 
+# myVW Canada (``com.vw.carnet.releaseca``), grounded in a real 2024 Atlas
+# capture (app 2026.10.23-9809, English, tests/fixtures/companion_myvw/). This is
+# NOT the We Connect app and NOT the US myVW app (``com.vw.carnet.release``,
+# never captured here), so it has its own key: ``volkswagen_na`` is already the
+# cloud US/CA brand. The Atlas is petrol-only, so no battery fields.
+#
+# Read-only and ``verified=False``: only the Home screen is mapped, from one car
+# and one app build. The Home tiles carry few resource ids, so the three values
+# are tied to what sits beside them, and every one of the 29 other captured
+# screens reads nothing (tests/test_companion_myvw_ca.py).
+#   range      "540 Est. km"            a bare text node in statusComposeView
+#   odometer   "59,726 km"              the node right after the range
+#   lock       lockButton subtitle      "Locked" (tile title is "Doors")
+# Not mapped yet: the "Updated at 9:57p.m. on 11/23/2026" line is an absolute
+# time in the car's time zone, so it needs a parser the preset does not have;
+# service, diagnostics and trip data sit behind navigation and need a verified
+# preset. Remote start asks for the S-PIN, so no actions are planned.
+_VW_CA = BrandPreset(
+    brand="volkswagen_ca",
+    display_name="Volkswagen Canada (myVW)",
+    package="com.vw.carnet.releaseca",
+    verified=False,
+    verified_app_version=None,
+    fields=(
+        FieldSelector(
+            target="combustion_range_km",
+            label_re=r"^\d[\d,.\s]*Est\.?\s*km$",
+            value_from="self",
+            parse="range_km",
+        ),
+        FieldSelector(
+            target="odometer_km",
+            label_re=r"Est\.?\s*km$",
+            value_from="sibling",
+            parse="int_km",
+        ),
+        FieldSelector(
+            target="doors_locked",
+            resource_id="subtitleTextView",
+            parse="bool_locked",
+        ),
+    ),
+    overlays=(_SEEDED_POWERSAVE,),
+    rate_limit_banners=(_RATE_LIMIT_BANNER,),
+    # Present on Home at the top and scrolled, on no other captured screen.
+    screen_anchor=FieldSelector(target="home_screen", resource_id="homeContentView"),
+)
+
+
 PRESETS: dict[str, BrandPreset] = {
-    p.brand: p for p in (_VW, _AUDI, _SKODA, _SEAT, _CUPRA)
+    p.brand: p for p in (_VW, _AUDI, _SKODA, _SEAT, _CUPRA, _VW_CA)
 }
 
 

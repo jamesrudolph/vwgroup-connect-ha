@@ -34,6 +34,8 @@ _UNLOAD_IN_PROGRESS = getattr(ConfigEntryState, "UNLOAD_IN_PROGRESS", None)
 # falls back to ``brand.title()`` unchanged, so no existing device is renamed.
 _BRAND_DISPLAY: dict[str, str] = {
     "volkswagen_commercial": "Volkswagen Commercial Vehicles",
+    # Companion (ADB) entry for the Canadian myVW app.
+    "volkswagen_ca": "Volkswagen",
 }
 
 
