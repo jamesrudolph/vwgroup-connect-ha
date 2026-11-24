@@ -301,6 +301,38 @@ agreeing and stop that attempt, even if BACK reveals the overview. A missing
 Agree button makes the walk back out and stop. Consent that remains after the
 bounded dismissal attempts also stops the walk.
 
+## myVW Canada (`com.vw.carnet.releaseca`)
+
+A separate app from We Connect, so none of the tables above apply to it. Source:
+a read-only capture of a 2024 Atlas (petrol), app 2026.10.23-9809, English, on a
+Pixel 11 Pro XL (Android 17): 30 dumps in `tests/fixtures/companion_myvw/`.
+Only the Home screen is mapped; the preset is `volkswagen_ca`, read-only and
+unverified (`verified=False`). It was checked live on 2026-11-24 through the ADB
+Bridge add-on (Home Assistant 2026.11.2): range and odometer matched the app, and
+`doors_locked` followed an unlock (the tile subtitle reads `Unlocked`) and a lock,
+each after a manual refresh. One car, one app build, no long run yet.
+
+| Value | Where on Home | Field | How it is found |
+|---|---|---|---|
+| Estimated range | `540 Est. km`, a bare text node in `statusComposeView` | `combustion_range_km` | Text ending in *Est. km* |
+| Odometer | `59,726 km`, the node after the range | `odometer_km` | The sibling after the range text |
+| Lock state | `lockButton`: title *Doors*, subtitle `Locked` | `doors_locked` | Resource id `subtitleTextView` (the honk tile's *Off* reads nothing) |
+
+Home carries two freshness lines that are **not mapped**: `timestampTextView`
+("Updated at 9:57p.m. on 11/23/2026", an absolute time in the car's time zone,
+which the Vehicle Information screen states) and `locationTimestampTextView`
+("Located at 9:57p.m. (12 hours ago)", the age of the parked position, not of the
+status).
+
+Seen in the other dumps, not read yet: service due date and distance (*Service*),
+system status per category (*Diagnostics*), trip and DriveView statistics, the
+activity history and the inbox. They need navigation, so they wait for a verified
+preset. The Doors, Remote start and Honk & flash tiles open bottom sheets; Remote
+start then asks for the S-PIN ("Confirm location … entering your pin"), which is
+why this channel will not start the car. No screen showed fuel level or tire
+pressure. Not captured: miles, French, an unlocked car, an EV or hybrid, and the
+US app.
+
 ## Other brands in the #968 dumps
 
 | Car | Overview read today | Detail screens |

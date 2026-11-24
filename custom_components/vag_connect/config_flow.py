@@ -894,7 +894,7 @@ class VagConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: i
                 self._abort_if_unique_id_configured()
                 preset = PRESETS[brand]
                 _how = "Companion/Agent" if use_relay else "Companion/ADB"
-                title = f"{brand.title()} ({_how}) {vin[-6:]}"
+                title = f"{preset.label} ({_how}) {vin[-6:]}"
                 if not preset.verified:
                     title += " [alpha, read-only]"
                 return self.async_create_entry(
@@ -919,7 +919,7 @@ class VagConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: i
             user_input.get(CONF_COMPANION_AGENT_TOKEN, self._companion_agent_token_default)
             if user_input is not None else self._companion_agent_token_default
         )
-        brands = {b: b.title() for b in PRESETS}
+        brands = {b: p.label for b, p in PRESETS.items()}
         schema = vol.Schema(
             {
                 vol.Required(CONF_BRAND, default="volkswagen"): vol.In(brands),

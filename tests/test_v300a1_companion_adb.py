@@ -501,8 +501,10 @@ class TestCoordinatorGuards:
 # ── preset integrity ────────────────────────────────────────────────────────
 
 class TestPresetIntegrity:
-    def test_all_five_brands_present(self) -> None:
-        assert set(PRESETS) == {"volkswagen", "audi", "skoda", "seat", "cupra"}
+    def test_all_brands_present(self) -> None:
+        assert set(PRESETS) == {
+            "volkswagen", "audi", "skoda", "seat", "cupra", "volkswagen_ca",
+        }
 
     def test_exactly_one_brand_is_verified(self) -> None:
         verified = [b for b, p in PRESETS.items() if p.verified]
@@ -523,6 +525,8 @@ class TestPresetIntegrity:
 
     def test_every_preset_reads_soc_and_range(self) -> None:
         for brand, p in PRESETS.items():
+            if brand == "volkswagen_ca":
+                continue  # petrol-only Atlas: no traction battery to read
             targets = {f.target for f in p.fields}
             assert "battery_soc" in targets, brand
             assert "electric_range_km" in targets, brand

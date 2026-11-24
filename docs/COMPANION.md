@@ -119,6 +119,7 @@ These are the rules the code is held to. They explain most of the behaviour belo
 |---|---|
 | **volkswagen** | Verified on a real device. Reads, nav reads and controls. This document is about this preset. |
 | audi, skoda, seat, cupra | Unverified (`verified=False`), no nav reads and no actions. They read what the overview narrates and **refuse every tap and every control** until a confirmed screen map from a real device exists. CUPRA's overview selectors already come from a real-device dump. |
+| **volkswagen_ca** | The Canadian **myVW** app (`com.vw.carnet.releaseca`), a different app from We Connect. Unverified, no nav reads, no actions. Reads the Home screen's range, odometer and lock state, from one 2024 Atlas on app 2026.10.23-9809 in English; checked live against the app on that car. Petrol cars only so far. The US myVW app (`com.vw.carnet.release`) has not been captured and is not covered. See [the app map](COMPANION_APP_MAP.md#myvw-canada-com.vw.carnet.releaseca). |
 
 Not offered at all: **lock and unlock**. See [2.6](#26-commands).
 
