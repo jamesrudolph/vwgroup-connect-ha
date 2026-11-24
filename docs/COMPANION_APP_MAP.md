@@ -307,7 +307,10 @@ A separate app from We Connect, so none of the tables above apply to it. Source:
 a read-only capture of a 2024 Atlas (petrol), app 2026.10.23-9809, English, on a
 Pixel 11 Pro XL (Android 17): 30 dumps in `tests/fixtures/companion_myvw/`.
 Only the Home screen is mapped; the preset is `volkswagen_ca`, read-only and
-unverified (`verified=False`).
+unverified (`verified=False`). It was checked live on 2026-11-24 through the ADB
+Bridge add-on (Home Assistant 2026.11.2): range and odometer matched the app, and
+`doors_locked` followed an unlock (the tile subtitle reads `Unlocked`) and a lock,
+each after a manual refresh. One car, one app build, no long run yet.
 
 | Value | Where on Home | Field | How it is found |
 |---|---|---|---|
