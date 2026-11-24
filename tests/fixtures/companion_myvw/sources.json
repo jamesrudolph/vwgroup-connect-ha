@@ -1,0 +1,182 @@
+[
+  {
+    "fixture": "01_Home.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "02_Home-scrolled-down.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "03_Service-Top.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "04_Service-Bottom.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "05_Home--vehicle-menu-selected.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "06_Vehicle-Information.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; IMEI zeroed; vehicle MSISDN replaced with a fictional number."
+  },
+  {
+    "fixture": "07_Manage-Vehicle.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "08_Activity-History-Top.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "09_Home--Doors-button-pressed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump. The Doors tile was tapped only to open its Lock/Unlock sheet; no lock or unlock command was sent."
+  },
+  {
+    "fixture": "10_Home--Remote-Start-button-pressed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump. The Remote start tile was tapped only to open its Start/Stop sheet; no command was sent."
+  },
+  {
+    "fixture": "11_Home--Remote-Start--Start-button-pressed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump. Start was tapped, which only opened the 'confirm location / enter your pin' dialog; it was cancelled and no PIN was entered, so nothing was sent."
+  },
+  {
+    "fixture": "12_Home--Map-pressed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "13_Home--trip-stats-pressed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "14_Trip-stats.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "15_Trip-stats-kilometres.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "16_trip-stats-speed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "17_DriveView-Overall.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "18_DriveView-Day.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "19_DriveView-Week.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "20_DriveView-Month.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "21_Inbox.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "22_Inbox-Messages-All.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "23_Service-Diagnostics-Comfort.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "24_Service-Diagnostics-Driver-Assistance-Systems.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "25_Service-Diagnostics-Powertrain.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "26_Service-Diagnostics-Tires---Brakes.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "27_Account-Top.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "28_Account-Bottom.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "29_Account-About--App-Version-.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked."
+  },
+  {
+    "fixture": "30_Home-honk-and-flash-button-pressed.xml",
+    "contributor": "jamesrudolph",
+    "source": "Local ADB capture, 2026-11-24, Atlas 2024, myVW com.vw.carnet.releaseca 2026.10.23-9809 (English), Pixel 11 Pro XL, Android 17",
+    "note": "Read-only uiautomator dump. The Honk & flash tile was tapped only to open its sheet; no command was sent."
+  }
+]
