@@ -19,8 +19,10 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$OutDir = (Join-Path (Get-Location) 'myvw_capture'),
-    [string]$Package = 'com.vw.carnet.release',
+    # _private/ is gitignored, so raw dumps cannot be committed by accident.
+    [string]$OutDir = (Join-Path (Get-Location) '_private\myvw_capture'),
+    # Canada is com.vw.carnet.releaseca; the US app is com.vw.carnet.release.
+    [string]$Package = 'com.vw.carnet.releaseca',
     [string]$Contributor = '',
     [string]$Vehicle = '',
     [switch]$SanitizeOnly
@@ -97,17 +99,19 @@ function Invoke-Sanitize {
     }
 
     $meta = Get-Meta
-    $sources = [ordered]@{
-        app_version = if ($meta) { $meta.app_version } else { 'UNKNOWN' }
-        captured    = (Get-Date -Format 'yyyy-MM-dd')
-        contributor = $Contributor
-        vehicle     = $Vehicle
-        device      = if ($meta) { "$($meta.device_model), Android $($meta.android)" } else { '' }
-        language    = 'English'
-        files       = @($files | ForEach-Object Name)
-        notes       = 'Read-only ADB uiautomator capture of the myVW (Canada) app. Redacted: VIN serial zeroed, e-mail, phone, postal code and long decimals masked. No taps made.'
-    }
-    [IO.File]::WriteAllText((Join-Path $Clean 'sources.json'), ($sources | ConvertTo-Json -Depth 4), $Utf8NoBom)
+    # Same shape as tests/fixtures/companion_*/sources.json: a list of per-file entries.
+    $appVer = if ($meta) { $meta.app_version } else { 'UNKNOWN' }
+    $pkg = if ($meta) { $meta.package } else { $Package }
+    $dev = if ($meta) { "$($meta.device_model), Android $($meta.android)" } else { 'unknown device' }
+    $sources = @($files | ForEach-Object {
+            [ordered]@{
+                fixture     = $_.Name
+                contributor = $Contributor
+                source      = "Local ADB capture, $(Get-Date -Format 'yyyy-MM-dd'), $Vehicle, myVW $pkg $appVer (English), $dev"
+                note        = 'Read-only uiautomator dump, no taps made. Redacted: VIN serial zeroed; e-mail, phone, postal code and long decimals masked.'
+            }
+        })
+    [IO.File]::WriteAllText((Join-Path $Clean 'sources.json'), (ConvertTo-Json -InputObject $sources -Depth 4), $Utf8NoBom)
 
     Write-Host "`nAutomatic redaction report (counts replaced per file):" -ForegroundColor Cyan
     $report | ForEach-Object { Write-Host "  $_" }
