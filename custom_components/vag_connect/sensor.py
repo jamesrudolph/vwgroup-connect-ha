@@ -5477,7 +5477,9 @@ async def async_setup_entry(
         is_cloud_only,
         remove_twin,
     )
-    reads_sync_line = coordinator.is_companion() and brand == "volkswagen"
+    from .companion.presets import preset_reads_sync_time  # noqa: PLC0415
+
+    reads_sync_line = coordinator.is_companion() and preset_reads_sync_time(brand)
     syncs_vehicle = (
         coordinator.is_companion()
         and not coordinator.is_read_only()
@@ -5591,7 +5593,7 @@ async def async_setup_entry(
             entities.append(VagLastVehicleSyncSensor(coordinator, vin))
         if syncs_vehicle:
             entities.append(VagAppRequestStatusSensor(coordinator, vin))
-        if reads_sync_line and vehicle.get("has_battery") and not (
+        if reads_sync_line and brand == "volkswagen" and vehicle.get("has_battery") and not (
             coordinator.command_method_available("command_set_charge_mode")
         ):
             entities.append(VagCompanionChargeModeSensor(coordinator, vin))

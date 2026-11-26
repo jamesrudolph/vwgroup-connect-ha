@@ -317,12 +317,18 @@ each after a manual refresh. One car, one app build, no long run yet.
 | Estimated range | `540 Est. km`, a bare text node in `statusComposeView` | `combustion_range_km` | Text ending in *Est. km* |
 | Odometer | `59,726 km`, the node after the range | `odometer_km` | The sibling after the range text |
 | Lock state | `lockButton`: title *Doors*, subtitle `Locked` | `doors_locked` | Resource id `subtitleTextView` (the honk tile's *Off* reads nothing) |
+| Car last sent data | `timestampTextView` under the *Home* title: `Updated at 9:57p.m. on 11/23/2026` | `companion_app_synced_at` (the *Last vehicle sync* sensor) and the source age | `sync_at_re` on the preset; the time has no zone, so it is read in Home Assistant's zone |
 
-Home carries two freshness lines that are **not mapped**: `timestampTextView`
-("Updated at 9:57p.m. on 11/23/2026", an absolute time in the car's time zone,
-which the Vehicle Information screen states) and `locationTimestampTextView`
-("Located at 9:57p.m. (12 hours ago)", the age of the parked position, not of the
-status).
+The *Updated at* time is shown by the app in the car's own zone (the Vehicle
+Information screen says so), but carries no zone itself. For an update made today
+the app also drops the date (`Updated at 10:00a.m.`, seen live 2026-11-26); that
+form takes today's date in the same zone. It is read as Home Assistant's local
+time, like the departure timers, so the car and Home Assistant
+are assumed to share a zone. A time that comes out ahead of now means they do not
+and is ignored. The Service screen's line says `Updating`, which is not read.
+
+Home also carries `locationTimestampTextView` ("Located at 9:57p.m. (12 hours
+ago)"), the age of the parked position, not of the status. It is **not mapped**.
 
 Seen in the other dumps, not read yet: service due date and distance (*Service*),
 system status per category (*Diagnostics*), trip and DriveView statistics, the
