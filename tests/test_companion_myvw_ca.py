@@ -65,6 +65,23 @@ def test_home_updated_at_line_is_the_time_as_the_app_shows_it() -> None:
     assert find_sync_time(_nodes("01_Home.xml"), PRESET) == datetime(2026, 11, 23, 21, 57)
 
 
+def _same_day_nodes(text: str):
+    from custom_components.vag_connect.companion.screen import UiNode
+
+    return [UiNode("", "", text, "android.widget.TextView", False, None)]
+
+
+def test_a_same_day_line_has_no_date_and_takes_todays() -> None:
+    # Seen live on 2026-11-26: the app drops "on M/D/YYYY" for an update made today.
+    today = datetime(2026, 11, 26).date()
+    nodes = _same_day_nodes("Updated at 10:00a.m.")
+    assert find_sync_time(nodes, PRESET, today) == datetime(2026, 11, 26, 10, 0)
+    assert find_sync_time(nodes, PRESET) is None  # no date, no "today": not guessed
+    assert find_sync_time(_same_day_nodes("Updated at 12:05a.m."), PRESET, today) == datetime(
+        2026, 11, 26, 0, 5
+    )
+
+
 @pytest.mark.parametrize("name", OTHER_SCREENS)
 def test_no_other_captured_screen_has_a_sync_time(name: str) -> None:
     # The Service screen's timestamp line says "Updating", which is not a time.
@@ -117,6 +134,23 @@ async def test_the_updated_at_line_becomes_the_car_sync_time_in_utc() -> None:
     # 9:57 p.m. on 11/23 in a UTC-5 zone is 02:57 UTC the next day.
     assert fields["companion_app_synced_at"] == datetime(2026, 11, 24, 2, 57, tzinfo=timezone.utc)
     assert channel.source_data_age_s == 12 * 3600 + 3 * 60
+
+
+async def test_a_same_day_line_becomes_the_sync_time_in_the_cars_zone() -> None:
+    home = (FIXTURES / "01_Home.xml").read_text(encoding="utf-8")
+    same_day = home.replace("Updated at 9:57p.m. on 11/23/2026", "Updated at 10:00a.m.")
+    assert same_day != home
+    # 15:56 UTC on the 26th is 10:56 in a UTC-5 zone, still the 26th.
+    channel = CompanionChannel(
+        _Phone(same_day), PRESET, time_fn=time.monotonic,
+        wall_clock_fn=lambda: datetime(2026, 11, 26, 15, 56, tzinfo=timezone.utc).timestamp(),
+        local_tz_fn=lambda: EST,
+    )
+
+    fields = await channel.read()
+
+    assert fields["companion_app_synced_at"] == datetime(2026, 11, 26, 15, 0, tzinfo=timezone.utc)
+    assert channel.source_data_age_s == 56 * 60
 
 
 async def test_without_a_known_zone_the_line_is_not_used() -> None:

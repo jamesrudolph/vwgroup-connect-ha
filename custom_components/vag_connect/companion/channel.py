@@ -768,12 +768,14 @@ class CompanionChannel:
         not (or a clock is off) and is ignored rather than shown as fresher
         than it can be. Like the relative line it only moves forward.
         """
-        local = find_sync_time(nodes, self._preset)
         tz = self._local_tz_fn() if self._local_tz_fn is not None else None
-        if local is None or tz is None:
+        if tz is None:
+            return
+        now = datetime.fromtimestamp(self._wall(), tz=timezone.utc)
+        local = find_sync_time(nodes, self._preset, now.astimezone(tz).date())
+        if local is None:
             return
         seen = local.replace(tzinfo=tz).astimezone(timezone.utc)
-        now = datetime.fromtimestamp(self._wall(), tz=timezone.utc)
         if seen > now + timedelta(minutes=2):
             return
         if self._seen_at is None or seen > self._seen_at:

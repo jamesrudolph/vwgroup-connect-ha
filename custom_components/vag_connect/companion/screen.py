@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 from xml.etree import ElementTree as ET
 
 from .presets import (
@@ -331,13 +331,17 @@ def find_sync_age(nodes: list[UiNode], preset: BrandPreset) -> float | None:
     return None
 
 
-def find_sync_time(nodes: list[UiNode], preset: BrandPreset) -> datetime | None:
+def find_sync_time(
+    nodes: list[UiNode], preset: BrandPreset, today: date | None = None
+) -> datetime | None:
     """Parse an absolute "Updated at 9:57p.m. on 11/23/2026" line (myVW).
 
     Returns the wall-clock time exactly as the app shows it, with no time zone:
-    the line has none, so the caller decides which zone it is in. None if the
-    preset has no such line configured, none is on screen, or it is not a real
-    time ("Updating" never matches).
+    the line has none, so the caller decides which zone it is in. The app drops
+    the date for an update made today ("Updated at 10:00a.m."); ``today`` (in
+    that same zone) fills it in, and without it such a line is not used. None
+    if the preset has no such line configured, none is on screen, or it is not
+    a real time ("Updating" never matches).
     """
     if not preset.sync_at_re:
         return None
@@ -350,6 +354,10 @@ def find_sync_time(nodes: list[UiNode], preset: BrandPreset) -> datetime | None:
         hour, minute, meridiem, month, day, year = m.groups()
         if not 1 <= int(hour) <= 12:
             continue
+        if year is None:
+            if today is None:
+                continue
+            month, day, year = today.month, today.day, today.year
         try:
             return datetime(
                 int(year), int(month), int(day),

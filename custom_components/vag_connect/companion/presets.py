@@ -281,7 +281,9 @@ class BrandPreset:
     sync_age_re: str | None = None
     # An absolute "Updated at 9:57p.m. on 11/23/2026" line (myVW), with no time
     # zone in it. Six groups: hour (1-12), minute, "a" or "p", month, day, year.
-    # Read as Home Assistant's local time, like the departure timers.
+    # The date is left off when the update was today ("Updated at 10:00a.m."),
+    # and then the last three groups are None. Read as Home Assistant's local
+    # time, like the departure timers.
     sync_at_re: str | None = None
     # Label for the setup dropdown and the entry title; empty means brand.title().
     display_name: str = ""
@@ -1334,8 +1336,8 @@ _VW_CA = BrandPreset(
     screen_anchor=FieldSelector(target="home_screen", resource_id="homeContentView"),
     # The line under the "Home" title: when the car last sent the app data.
     sync_at_re=(
-        r"^Updated at\s+(\d{1,2}):(\d{2})\s*([ap])\.?m\.?\s+on\s+"
-        r"(\d{1,2})/(\d{1,2})/(\d{4})$"
+        r"^Updated at\s+(\d{1,2}):(\d{2})\s*([ap])\.?m\.?"
+        r"(?:\s+on\s+(\d{1,2})/(\d{1,2})/(\d{4}))?$"
     ),
 )
 

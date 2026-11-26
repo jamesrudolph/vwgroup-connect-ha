@@ -320,8 +320,10 @@ each after a manual refresh. One car, one app build, no long run yet.
 | Car last sent data | `timestampTextView` under the *Home* title: `Updated at 9:57p.m. on 11/23/2026` | `companion_app_synced_at` (the *Last vehicle sync* sensor) and the source age | `sync_at_re` on the preset; the time has no zone, so it is read in Home Assistant's zone |
 
 The *Updated at* time is shown by the app in the car's own zone (the Vehicle
-Information screen says so), but carries no zone itself. It is read as Home
-Assistant's local time, like the departure timers, so the car and Home Assistant
+Information screen says so), but carries no zone itself. For an update made today
+the app also drops the date (`Updated at 10:00a.m.`, seen live 2026-11-26); that
+form takes today's date in the same zone. It is read as Home Assistant's local
+time, like the departure timers, so the car and Home Assistant
 are assumed to share a zone. A time that comes out ahead of now means they do not
 and is ignored. The Service screen's line says `Updating`, which is not read.
 
