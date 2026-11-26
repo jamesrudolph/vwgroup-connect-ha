@@ -46,6 +46,10 @@ Versioning: [Semantic Versioning 2.0.0](https://semver.org/)
 
 ## [Unreleased]
 
+### Hinzugefügt / Added
+
+- **Companion (ADB): the Canadian myVW app now fills "Last vehicle sync" (#968, #1165).** myVW shows when the car last sent data as "Updated at 9:57p.m. on 11/23/2026" under the Home title. The `volkswagen_ca` preset now reads it into the same *Last vehicle sync* sensor the We Connect preset fills, and into the source age. The line carries no time zone, so it is read in Home Assistant's zone, like the departure timers: the car and Home Assistant are assumed to share one. A time that comes out ahead of now means they do not, and is ignored. English app only. The parser is tested against the 30 captured screens and the zone handling with fixed clocks; not yet seen live in Home Assistant.
+
 ## [5.6.0] - 2026-11-24 — "The real reason / Der echte Grund"
 
 ### Hinzugefügt / Added

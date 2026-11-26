@@ -279,6 +279,10 @@ class BrandPreset:
     # freshness issue) apart from "our connector is unhealthy". Captures a number
     # and a unit. None = not wired for this brand.
     sync_age_re: str | None = None
+    # An absolute "Updated at 9:57p.m. on 11/23/2026" line (myVW), with no time
+    # zone in it. Six groups: hour (1-12), minute, "a" or "p", month, day, year.
+    # Read as Home Assistant's local time, like the departure timers.
+    sync_at_re: str | None = None
     # Label for the setup dropdown and the entry title; empty means brand.title().
     display_name: str = ""
 
@@ -1294,10 +1298,11 @@ _CUPRA = BrandPreset(
 #   range      "540 Est. km"            a bare text node in statusComposeView
 #   odometer   "59,726 km"              the node right after the range
 #   lock       lockButton subtitle      "Locked" (tile title is "Doors")
-# Not mapped yet: the "Updated at 9:57p.m. on 11/23/2026" line is an absolute
-# time in the car's time zone, so it needs a parser the preset does not have;
-# service, diagnostics and trip data sit behind navigation and need a verified
-# preset. Remote start asks for the S-PIN, so no actions are planned.
+#   synced at  timestampTextView        "Updated at 9:57p.m. on 11/23/2026", an
+#              absolute time with no zone, read as Home Assistant's local time
+# Not mapped yet: service, diagnostics and trip data sit behind navigation and
+# need a verified preset. Remote start asks for the S-PIN, so no actions are
+# planned.
 _VW_CA = BrandPreset(
     brand="volkswagen_ca",
     display_name="Volkswagen Canada (myVW)",
@@ -1327,12 +1332,24 @@ _VW_CA = BrandPreset(
     rate_limit_banners=(_RATE_LIMIT_BANNER,),
     # Present on Home at the top and scrolled, on no other captured screen.
     screen_anchor=FieldSelector(target="home_screen", resource_id="homeContentView"),
+    # The line under the "Home" title: when the car last sent the app data.
+    sync_at_re=(
+        r"^Updated at\s+(\d{1,2}):(\d{2})\s*([ap])\.?m\.?\s+on\s+"
+        r"(\d{1,2})/(\d{1,2})/(\d{4})$"
+    ),
 )
 
 
 PRESETS: dict[str, BrandPreset] = {
     p.brand: p for p in (_VW, _AUDI, _SKODA, _SEAT, _CUPRA, _VW_CA)
 }
+
+
+def preset_reads_sync_time(brand: str) -> bool:
+    """True when the companion can say when the car last sent the app data."""
+    key = (brand or "").lower()
+    preset = PRESETS.get(key)
+    return preset is not None and (key == "volkswagen" or bool(preset.sync_at_re))
 
 
 # ── value parsers ────────────────────────────────────────────────────────────

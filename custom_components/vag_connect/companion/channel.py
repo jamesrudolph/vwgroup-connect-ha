@@ -26,7 +26,7 @@ import asyncio
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, tzinfo
 from typing import Callable, Literal
 
 from ..const import COMPANION_NAV_MAX_AGE_S
@@ -47,6 +47,7 @@ from .screen import (
     find_overlay,
     find_rate_limit_banner,
     find_sync_age,
+    find_sync_time,
     has_anchor,
     parse_ui_dump,
     read_fields,
@@ -299,6 +300,7 @@ class CompanionChannel:
         *,
         time_fn: Callable[[], float],
         wall_clock_fn: Callable[[], float] | None = None,
+        local_tz_fn: Callable[[], tzinfo | None] | None = None,
         read_charge_detail: bool = False,
         nav_opt_ins: "frozenset[str] | set[str] | None" = None,
     ) -> None:
@@ -321,6 +323,9 @@ class CompanionChannel:
         # one must be persistable across restarts; ``_now`` (monotonic) is right
         # for the in-session failure cooldown. Injected for tests.
         self._wall = wall_clock_fn or time.time
+        # The zone an absolute app time (myVW "Updated at") is read in; None
+        # means unknown, and then such a line is not used.
+        self._local_tz_fn = local_tz_fn
         self._cooldown_until: float = 0.0
         self._consecutive_failures: int = 0  # drives the adaptive cooldown (#16)
         self._rate_limited_until: float = 0.0  # wall-clock; persisted (ckomma #21)
@@ -675,6 +680,7 @@ class CompanionChannel:
         # the CAR's data is (ckomma #22, separate from connector health).
         self._consecutive_failures = 0
         self._source_data_age_s = find_sync_age(nodes, self._preset)
+        self._note_sync_time(nodes)
         fields = read_fields(nodes, self._preset)
         if self._preset.brand == "volkswagen":
             fields.update(read_battery_resources(nodes, self._app_strings))
@@ -752,6 +758,27 @@ class CompanionChannel:
             await self._t.key_back()
             nodes, _cleared = await self._dump_and_clear_overlays()
         return nodes, not self._is_alert(nodes)
+
+    def _note_sync_time(self, nodes: list[UiNode]) -> None:
+        """Take when the car last sent data from an absolute "Updated at" line.
+
+        The app shows the time without a zone, so it is read in Home
+        Assistant's zone, like the departure timers: the car and Home
+        Assistant are assumed to share one. A time ahead of now means they do
+        not (or a clock is off) and is ignored rather than shown as fresher
+        than it can be. Like the relative line it only moves forward.
+        """
+        local = find_sync_time(nodes, self._preset)
+        tz = self._local_tz_fn() if self._local_tz_fn is not None else None
+        if local is None or tz is None:
+            return
+        seen = local.replace(tzinfo=tz).astimezone(timezone.utc)
+        now = datetime.fromtimestamp(self._wall(), tz=timezone.utc)
+        if seen > now + timedelta(minutes=2):
+            return
+        if self._seen_at is None or seen > self._seen_at:
+            self._seen_at = seen
+        self._source_data_age_s = max(0.0, (now - self._seen_at).total_seconds())
 
     def _note_sync_line(self, nodes: list[UiNode]) -> None:
         """Turn "Synchronised … ago" into when the car last sent data.

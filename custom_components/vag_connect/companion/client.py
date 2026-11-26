@@ -18,7 +18,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, tzinfo
 from typing import Any, Awaitable, Callable
 
 from ..cariad.models import VehicleData
@@ -164,6 +164,7 @@ class CompanionClient:
             )
         self._channel = CompanionChannel(
             self._transport, preset, time_fn=time_fn,
+            local_tz_fn=_home_assistant_time_zone,
             read_charge_detail=read_charge_detail,
             nav_opt_ins=nav_opt_ins,
         )
@@ -657,6 +658,15 @@ class CompanionClient:
                     lock.release()
                 if not settled:
                     mark_unsettled(getattr(self, "_phone_keys", ()), _SETTLE_S)
+
+
+def _home_assistant_time_zone() -> tzinfo | None:
+    """Home Assistant's configured zone, read when needed so a change applies."""
+    try:
+        from homeassistant.util import dt as dt_util  # noqa: PLC0415
+    except ImportError:  # pragma: no cover - outside Home Assistant
+        return None
+    return dt_util.DEFAULT_TIME_ZONE
 
 
 def _one_off_weekday(raw: str, today: "date | None" = None) -> str | None:
